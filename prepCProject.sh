@@ -1,29 +1,27 @@
-#!/bin/bash
+function cprep() {
+  arg_flags=""
 
-arg_flags=""
+  for arg in "$@";
+  do
+    if [[ $arg = -* ]];
+    then
+      arg_flags="${arg_flags}${arg#-}"
+    else
+      name=$arg
+    fi
+  done
 
-for arg in "$@";
-do
-  if [[ $arg = -* ]];
+  if [[ $arg_flags != "" ]];
   then
-    arg_flags="${arg_flags}${arg#-}"
-  else
-    name=$arg
+    arg_flags="-${arg_flags}"
   fi
-done
 
-if [[ $arg_flags != "" ]];
-then
-  arg_flags="-${arg_flags}"
-fi
+  if [[ $name != "" ]];
+    then
+      mkdir "$name" || { echo "Failed mkdir" ; exit; };
+      cd "$name" || { echo "Failed cd" ; exit; };
+  fi
 
-if [[ $name != "" ]];
-  then
-    mkdir "$name" || { echo "Failed mkdir" ; exit; };
-    cd "$name" || { echo "Failed cd" ; exit; };
-fi
-
-ln -s ~/.custom/invoke/tasks.py ./tasks.py;
-inv cmakePrep ${arg_flags};
-
-
+  [[ -f ./tasks.py ]] || ln -s ~/.custom/invoke/tasks.py ./tasks.py;
+  inv cmakePrep ${arg_flags};
+}
