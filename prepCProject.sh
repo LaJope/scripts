@@ -18,8 +18,8 @@ function cprep() {
 
   if [[ $name != "" ]];
     then
-      mkdir "$name" || { echo "Failed mkdir" ; exit; };
-      cd "$name" || { echo "Failed cd" ; exit; };
+      mkdir "$name" || { echo "Failed mkdir" ; return; };
+      cd "$name" || { echo "Failed cd" ; return; };
   fi
 
   [[ -f ./tasks.py ]] || ln -s ~/.custom/invoke/tasks.py ./tasks.py;
