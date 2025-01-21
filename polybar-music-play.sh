@@ -1,8 +1,8 @@
 #!/bin/bash
 
-player='chromium'
+player=$1
 
-if [[ $(playerctl --player=$player status 2>&1) == 'Playing' ]];
+if [[ $(playerctl --player="$player" status 2>&1) == 'Playing' ]];
   then
     echo '  '
   else
