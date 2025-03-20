@@ -23,5 +23,9 @@ function cprep() {
   fi
 
   [[ -f ./tasks.py ]] || ln -s ~/.custom/invoke/tasks.py ./tasks.py;
-  inv cmakePrep ${arg_flags};
+  if [[ $arg_flags = "" ]]; then
+    inv cmakePrep;
+  else
+    inv cmakePrep "${arg_flags}";
+  fi
 }
