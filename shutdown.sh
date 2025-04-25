@@ -1,12 +1,12 @@
 #!/bin/bash
 
-printf "1 - shutdown\n2 - restart\nChoose: "
+array=("shutdown" "restart");
+PS3="Choose: ";
 
-input=""
-read -r input
-
-case "$input" in
-  "1") shutdown -h now ;;
-  "2") shutdown -h now -r ;;
-  "*") printf "Unexpected input\n" ;;
-esac
+select input in "${array[@]}"; do
+  case "$input" in
+    "shutdown") shutdown -h now ;;
+    "restart") shutdown -h now -r ;;
+  esac
+  break;
+done
