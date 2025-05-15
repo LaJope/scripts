@@ -1,20 +1,27 @@
 #!/bin/bash
 
-vlcon="$(pgrep vlc)"
+function getMusic {
+  player=$1
+  title=$(playerctl --player="$player" metadata xesam:title)
+  artist=$(playerctl --player="$player" metadata xesam:artist)
+  echo "$title ($artist)"
+}
 
-if [[ $vlcon ]]; then
-    title=$(playerctl --player=vlc metadata xesam:title)
-    artist=$(playerctl --player=vlc metadata xesam:artist)
-    echo "$title ($artist)"
-else
+if [ "$#" == 1 ]; then
   player=$1
   response="$(playerctl --player="$player" status 2>&1)"
 
   case $response in
-    'Playing') title=$(playerctl --player="$player" metadata xesam:title)
-               artist=$(playerctl --player="$player" metadata xesam:artist)
-               echo "$title ($artist)" ;;
-    'Paused')  echo '' ;;
+    'Playing') getMusic "$player" ;;
+    'Paused')  echo 'Paused' ;;
     '*')       echo '' ;;
   esac
+else
+  vlcon="$(pgrep vlc)"
+  if [[ $vlcon ]]; then
+    getMusic "vlc"
+  else
+    echo ''
+  fi
 fi
+
