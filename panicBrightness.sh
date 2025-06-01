@@ -5,7 +5,7 @@ normalBrightness=7500
 
 curr=$(brightnessctl get)
 
-if [ $curr != $panicBrightness ] ; then
+if [ "$curr" != $panicBrightness ] ; then
     brightnessctl set $panicBrightness ;
 else
     brightnessctl set $normalBrightness;

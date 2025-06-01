@@ -1,9 +1,7 @@
 #!/bin/bash
 
-is_active=$(pgrep screenkey)
-
-if [[ $is_active = '' ]]; then
-  screenkey
-else
+if [[ $(pgrep screenkey) ]]; then
   killall screenkey
+else
+  screenkey
 fi

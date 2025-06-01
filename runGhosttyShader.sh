@@ -9,18 +9,15 @@ shaderFolder="$HOME/.config/ghostty/shaders"
 launchCommand="ghostty"
 shaderFlag="--custom-shader="
 
-flag=$1
-if [ "$flag" = "--random" ]; then
+if [ "$1" = "--random" ]; then
   randomShader=$(find "$shaderFolder" | shuf -n 1)
-  $launchCommand "$shaderFlag$randomShader"
-  exit 0
+  launchCommand=$launchCommand "$shaderFlag$randomShader"
+else
+  for var in "$@"; do
+    shaderPath=$(find "$shaderFolder/$var")
+    [ "$shaderPath" != "" ] || { echo "Exiting"; exit 1; }
+    launchCommand="$launchCommand $shaderFlag$shaderPath"
+  done
 fi
-
-for var in "$@"
-do
-  shaderPath=$(find "$shaderFolder/$var")
-  [ "$shaderPath" != "" ] || { echo "Exiting"; exit 1; }
-  launchCommand="$launchCommand $shaderFlag$shaderPath"
-done
 
 $launchCommand

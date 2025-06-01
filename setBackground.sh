@@ -1,10 +1,6 @@
 #!/bin/bash
 
-
-is_active=$(pgrep feh)
-pubFolder="$HOME/HDD/Backgrounds/pub/"
-privFolder="$HOME/HDD/Backgrounds/priv/"
-allFolder="$HOME/HDD/Backgrounds/"
+bgFolder="$HOME/HDD/Backgrounds/"
 
 if [ "$#" != 1 ]; then
   echo "Need one argument";
@@ -12,16 +8,17 @@ if [ "$#" != 1 ]; then
 fi
 
 
-bgFolder="$pubFolder"
+currFolder=""
 
 case $1 in
-  "public") bgFolder="$pubFolder" ;;
-  "private") bgFolder="$privFolder" ;;
-  "all") bgFolder="$allFolder" ;;
+  "public") currFolder="$bgFolder/pub" ;;
+  "private") currFolder="$bgFolder/priv" ;;
+  "all") currFolder="$bgFolder" ;;
+  "*") currFolder="$bgFolder" ;;
 esac
 
-if [[ $is_active != '' ]]; then
+if [[ $(pgrep feh) ]]; then
   killall feh
 fi
 
-feh --bg-fill --recursive --randomize "$bgFolder"
+feh --bg-fill --recursive --randomize "$currFolder"
