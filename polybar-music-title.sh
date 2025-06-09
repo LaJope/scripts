@@ -20,14 +20,11 @@ function anotherPlayer {
 if [ "$#" == 1 ]; then
   player=$1
   response="$(playerctl --player="$player" status 2>&1)"
-
-  case $response in
-    'Playing') echo "hello" ; getMusic "$player" ;;
-    'Paused')  anotherPlayer ; echo 'Paused' ;;
-    *) anotherPlayer ;;
-  esac
-else
+  if [[ $response == "Playing" ]]; then
+    getMusic "$player"
+  else
     anotherPlayer
+  fi
 fi
 
 echo ''
