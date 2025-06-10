@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 def getMusic [player: string] {
-  mut data = {}
+  mut data: record = {}
   for $meta in [title, artist] {
     let metadata = (playerctl --player=($player) metadata xesam:($meta))
     $data = $data | merge {$meta: $metadata}
@@ -10,17 +10,17 @@ def getMusic [player: string] {
 }
 
 def otherPlayers [] {
-  let fst: bool = (
+  let fon: bool = (
     playerctl --player=firefox status | complete | get stdout | str trim
   ) == "Playing"
   let fsi: bool = (
     playerctl --player=firefox metadata | complete | get stdout
   ) | str contains "music.yandex"
   let fvlc: bool = try { pgrep vlc } catch { false }
-  mut music = {}
+  mut music: record = {}
   if $fvlc == true {
     $music = (getMusic vlc)
-  } else if $fst == true and $fsi == true {
+  } else if $fon == true and $fsi == true {
     $music = (getMusic firefox)
   }
   return $music
@@ -46,7 +46,8 @@ def main [
     if $format {
       printf "%s (%s)" $music.title $music.artist
     } else {
-      return $music
+      return ($music | to nuon)
+      # return $music
     }
   } catch {
     print ""
