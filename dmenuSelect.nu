@@ -7,6 +7,8 @@ def main [
   --theme (-t): string
   --width (-w): int
 ] {
+  let options = ($opts | from nuon | enumerate |
+                 format pattern "{index} {item}" | to text)
   mut th = ""
   if $theme == null {
     $th = "window {width: " + (
@@ -15,7 +17,7 @@ def main [
   }
 
   try {
-    let tmp = ($opts | rofi -dmenu -theme-str $th -i -l $len -c -p $msg)
+    let tmp = ($options | rofi -dmenu -theme-str $th -i -l $len -c -p $msg)
     let idx = $tmp | str index-of " "
     return ($tmp | str substring ($idx + 1)..)
   } catch {

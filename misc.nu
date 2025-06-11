@@ -7,18 +7,17 @@ let scripts = [
   ["kill", "killprompt.sh"],
   ["audio", "switchAudioOutput.nu"],
   ["ghostty", "runGhosttyShader.sh"],
-  ["monitor", "multimonitor.sh"],
+  ["monitor", "multimonitor.nu"],
 ]
 
-let options = $scripts | get name | enumerate |
-              format pattern "{index} {item}" | to text
+let opts = $scripts | get name | to nuon
 
 let len = $scripts | length
 let width = 20
 let msg = "Script"
 
 let sel = try {
-  nu ($dir + "dmenuSelect.nu") $options $len $msg --width=($width)
+  nu ($dir + "dmenuSelect.nu") $opts $len $msg --width=($width)
 } catch {
   exit 0
 }

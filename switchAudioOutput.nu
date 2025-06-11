@@ -3,8 +3,7 @@
 let dir = "/home/lajope/.custom/scripts"
 
 let sinks = (pactl -f json list sinks | from json | select name description)
-let options = ($sinks | get description | enumerate |
-               format pattern "{index} {item}" | to text)
+let options = $sinks | get description | to nuon
 
 let len = ($sinks | length)
 let width = 20
