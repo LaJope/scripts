@@ -11,7 +11,7 @@ for ((i = 1; i <= $#shaders; i++))
   shadersEnum[i]="$i "$shaders[i]
 
 length="${#shaders[@]}"
-theme_rofi="window {width: 25%;}"
+theme_rofi="window {width: 20%;}"
 
 prompt="${(j:\n:)shadersEnum}"
 message="Shader"

@@ -1,25 +1,32 @@
 #!/usr/bin/env nu
 
 def main [
-  opts: string
-  len: int
+  options: string
   msg: string
+  --fuzzy (-f)
   --theme (-t): string
   --width (-w): int
+  --length (-l): int
 ] {
-  let options = ($opts | from nuon | enumerate |
-                 format pattern "{index} {item}" | to text)
-  mut th = ""
-  if $theme == null {
-    $th = "window {width: " + (
-            if $width == null { 40 } else { $width } | to text
-          ) + "%;}"
+  let opts = try {
+    $options | from nuon | enumerate |
+      format pattern "{index} {item}" | to text
+  } catch {
+    $options
   }
+  let len = if $length == null {$options | from nuon | length} else {$length}
+  let th = "window {width: " + ($width | to text) + "%;}"
 
   try {
-    let tmp = ($options | rofi -dmenu -theme-str $th -i -l $len -c -p $msg)
-    let idx = $tmp | str index-of " "
-    return ($tmp | str substring ($idx + 1)..)
+    let selection = $opts | (
+      if $fuzzy {
+        rofi -matching fuzzy -dmenu -theme-str $th -i -l $len -c -p $msg
+      } else {
+        rofi -dmenu -theme-str $th -i -l $len -c -p $msg
+      }
+    )
+    let idx = $selection | str index-of " "
+    return ($selection | str substring ($idx + 1)..)
   } catch {
     exit 1
   }

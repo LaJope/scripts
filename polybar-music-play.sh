@@ -2,10 +2,13 @@
 
 player=$1
 
-if [[ $(playerctl --player="$player" status 2>&1) == 'Playing' ]];
-  then
-    echo '  '
-  else
-    echo '  '
-fi
+status=$(playerctl --player="$player" status 2>&1)
 
+case $status in
+  "Playing")
+    echo '' ;;
+  "Paused")
+    echo '' ;;
+  "*")
+    echo " " ;;
+esac

@@ -30,10 +30,13 @@ def main [
   player?: string
   --format (-f)
 ] {
+
+  # return (title-test.nu)
+
   mut music: record = {}
   let on: bool = try {
     (playerctl --player=($player) status | complete |
-    get stdout | str trim) == "Playing"
+    get stdout | str trim) in ["Playing"]
   } catch {
     false
   }

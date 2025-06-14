@@ -1,27 +1,26 @@
 #!/usr/bin/env nu
 
-let dir = "/home/lajope/.custom/scripts/"
-
 let scripts = [
   [name, path];
-  ["kill", "killprompt.sh"],
-  ["audio", "switchAudioOutput.nu"],
-  ["ghostty", "runGhosttyShader.sh"],
-  ["monitor", "multimonitor.nu"],
+  ["Kill", "killprompt.nu"],
+  ["Audio", "switchAudioOutput.nu"],
+  ["Ghostty shaders", "runGhosttyShader.nu"],
+  ["Duplicate monitor", "duplicateMonitor.nu"],
+  ["Rotate monitor", "rotateMonitor.nu"]
+  ["Shutdown", "shutdown.nu"],
 ]
 
 let opts = $scripts | get name | to nuon
 
-let len = $scripts | length
 let width = 20
 let msg = "Script"
 
 let sel = try {
-  nu ($dir + "dmenuSelect.nu") $opts $len $msg --width=($width)
+  dmenuSelect.nu $opts $msg --width=($width)
 } catch {
   exit 0
 }
 
-let scr = $scripts | where name == $sel | get path | to text
+let scr = $scripts | where name == $sel | get path | to text | str trim
 
-^($dir + $scr | str trim)
+^($scr)
