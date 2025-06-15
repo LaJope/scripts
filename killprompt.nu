@@ -8,8 +8,10 @@ let ignore = [
 ]
 let filt = {|el| ($ignore | all {|ig| $el.name !~ $ig})}
 
+let pattern = "({pid}) {name}"
+
 let filtered = ($processes | where $filt)
-let opts = ($filtered | format pattern "({pid}) {name}" | to nuon)
+let opts = ($filtered | format pattern $pattern | to nuon)
 
 let len = [10, ($filtered | length)] | math min
 let width = 20
@@ -21,5 +23,5 @@ let sel = try {
   exit 0
 }
 
-let pid = $sel | parse "({pid}) {name}" | get 0.pid | into int
+let pid = $sel | parse $pattern | get 0.pid | into int
 kill $pid

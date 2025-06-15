@@ -1,7 +1,19 @@
 #!/usr/bin/env nu
 
-let dir = "/home/lajope/.custom/scripts/"
+let msg = "Rotate"
+let monitor = try { selectMonitor.nu $msg } catch { exit 0 }
 
-let xr = (xrandr --listmonitors)
+let variants = ["left", "right", "normal", "inverted"]
 
-print ($xr | split row "\n" | drop nth 0 | split column " " | select column6 column4)
+let opts = $variants | to nuon
+
+let width = 20
+let msg = "Orientation"
+
+let sel = try {
+  dmenuSelect.nu $opts $msg --width=($width)
+} catch {
+  exit 0
+}
+
+xrandr --output $monitor --rotate $sel

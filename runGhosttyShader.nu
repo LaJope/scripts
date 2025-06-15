@@ -19,21 +19,16 @@ let sel = try {
 
 mut launchCommand = "ghostty"
 
-match $sel {
-  "random" => {
-    let shader_path = (ls $shader_folder | shuffle | get 0.name)
-      # find --regex ".glsl" -n
-    $launchCommand += $shader_flag + $shader_path
-  },
-  _ => {
-    print ($sel | split row " ") 
-    for $shader in ($sel | split row " ") {
-      let shader_path = $shader_folder + $shader + ".glsl"
-      if not ($shader_path | path exists) {
-        rofi -e "No shader file " + $shader ; exit 1
-      }
-      $launchCommand += $shader_flag + $shader_path
+if $sel == "random" {
+  let shader_path = (ls $shader_folder | shuffle | get 0.name)
+  $launchCommand += $shader_flag + $shader_path
+} else {
+  for $shader in ($sel | split row " ") {
+    let shader_path = $shader_folder + $shader + ".glsl"
+    if not ($shader_path | path exists) {
+      rofi -e "No shader file " + $shader ; exit 1
     }
+    $launchCommand += $shader_flag + $shader_path
   }
 }
 
