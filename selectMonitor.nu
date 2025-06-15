@@ -3,12 +3,34 @@
 def main [
   message: string
   monitors?: string
+  --confirm (-c)
+  --skip (-s)
 ] {
-  let opts = if $monitors == null {
+  let mon = if $monitors == null {
     getMonitors.nu
   } else {
     $monitors
-  } | from nuon | get name | to nuon
+  } | from nuon
+
+  let len = $mon | length
+
+  if $len == 0 { exit 1 }
+
+  if not $skip {
+    if $len == 1 {
+      let var = $mon.name.0
+      if $confirm {
+        return $var
+      }
+      if (youSure.nu $var) == "true" {
+        return $var
+      } else {
+        exit 1
+      }
+    }
+  }
+
+  let opts = $mon | get name | to nuon
 
   let width = 10
 

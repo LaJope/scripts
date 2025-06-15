@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 let msg = "Rotate"
-let monitor = try { selectMonitor.nu $msg } catch { exit 0 }
+let monitor = try { selectMonitor.nu $msg -c } catch { exit 0 }
 
 let variants = ["left", "right", "normal", "inverted"]
 

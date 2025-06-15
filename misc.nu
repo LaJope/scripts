@@ -5,8 +5,8 @@ let scripts = [
   ["Kill", "killprompt.nu"],
   ["Audio", "switchAudioOutput.nu"],
   ["Ghostty shaders", "runGhosttyShader.nu"],
-  ["Duplicate monitor", "duplicateMonitor.nu"],
-  ["Rotate monitor", "rotateMonitor.nu"]
+  ["Duplicate monitor", "monitorDuplicate.nu"],
+  ["Rotate monitor", "monitorRotate.nu"]
   ["Background", "setBackground.nu"]
   ["Shutdown", "shutdown.nu"],
 ]
