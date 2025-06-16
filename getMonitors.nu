@@ -5,14 +5,13 @@
 def main [
   --raw (-r)
 ] {
-# let xraw = $testing
-  let xraw = (xrandr --listmonitors)
-  let monitors = $xraw | split row "\n" | drop nth 0 | each {|mon_info|
-    let sp = $mon_info | split row " " | get 3 5;
-    let res_info = $sp.0 | split row "x";
-    let width = $res_info.0 | split row "/" | get 0;
-    let height = $res_info.1 | split row "/" | get 0;
-    {name: $sp.1, resolution: ($width + "x" + $height)}
+  # let xraw = $testing
+  let xraw = xrandr | grep " connected"
+  # let xraw = (xrandr --listmonitors)
+  let monitors = $xraw | split row "\n" | each {|mon_info|
+    let sp = $mon_info | split row " " | get 0 3;
+    let res_info = $sp.1 | str substring ..(($sp.1 | str index-of "+") - 1);
+    {name: $sp.0, resolution: $res_info}
   }
   if $raw {
     return ($monitors | to text | str trim)

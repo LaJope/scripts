@@ -8,6 +8,7 @@ let scripts = [
   ["Duplicate monitor", "monitorDuplicate.nu"],
   ["Rotate monitor", "monitorRotate.nu"]
   ["Background", "setBackground.nu"]
+  ["Background per screen", "setBackgroundPerScreen.nu"]
   ["Shutdown", "shutdown.nu"],
 ]
 
