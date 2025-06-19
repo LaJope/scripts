@@ -1,28 +1,34 @@
 #!/usr/bin/env nu
 
 let scripts = [
-  [name, path];
-  ["Kill", "killprompt.nu"],
-  ["Audio", "switchAudioOutput.nu"],
-  ["Ghostty shaders", "runGhosttyShader.nu"],
-  ["Duplicate monitor", "monitorDuplicate.nu"],
-  ["Rotate monitor", "monitorRotate.nu"]
-  ["Background", "setBackground.nu"]
-  ["Background per screen", "setBackgroundPerScreen.nu"]
-  ["Shutdown", "shutdown.nu"],
+  [name, path, priority];
+  ["Kill",            "killprompt.nu",        1],
+  ["Audio",           "switchAudioOutput.nu", 1],
+  ["Notes",           "newNote.nu",           1]
+  ["Ghostty shaders", "runGhosttyShader.nu",  1],
+  ["Shutdown",        "shutdown.nu",          1],
+
+  ["Duplicate monitor",     "monitorDuplicate.nu",       2],
+  ["Rotate monitor",        "monitorRotate.nu",          2]
+  ["Background",            "setBackground.nu",          2]
+  ["Background per screen", "setBackgroundPerScreen.nu", 2]
 ]
 
-let opts = $scripts | get name | to nuon
+def main [
+  --priority (-p): int
+] {
+  let opts = $scripts | where priority == $priority | get name | to nuon
 
-let width = 20
-let msg = "Script"
+  let width = 20
+  let msg = "Script"
 
-let sel = try {
-  dmenuSelect.nu $opts $msg --fuzzy --width=($width)
-} catch {
-  exit 0
+  let sel = try {
+    dmenuSelect.nu $opts $msg --fuzzy --width=($width)
+  } catch {
+    exit 0
+  }
+
+  let scr = $scripts | where name == $sel | get path | str trim
+
+  ^($scr)
 }
-
-let scr = $scripts | where name == $sel | get path | str trim
-
-^($scr)

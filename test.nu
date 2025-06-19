@@ -1,12 +1,13 @@
 #!/usr/bin/env nu
 
+let variants = [
+[type, help];
+[hello, why]
+]
 
-def main [
-  --mon (-m): int
-] {
-  if $mon != null {
-    print $mon
-  } else {
-    print Hello
-  }
-}
+let a = [
+[type, help];
+[why, hello]
+]
+
+print ($variants | append $a)

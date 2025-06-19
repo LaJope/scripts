@@ -9,6 +9,7 @@ let variants = [
   ["private",   ($bgFolder + "private")],
   ["minecraft", ($bgFolder + "minecraft")],
   ["all",        $bgFolder],
+  [" ",         ($bgFolder + ".private")],
 ]
 let opts = $variants | get type | to nuon
 const width = 20
@@ -38,7 +39,7 @@ def main [
 
   while true {
     try {
-      let sel = dmenuSelect.nu $opts $msg --fuzzy --width=($width)
+      let sel = dmenuSelect.nu $opts $msg --width=($width)
       setBg $sel $monitor
     } catch {
       exit 0
