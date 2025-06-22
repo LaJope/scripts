@@ -2,16 +2,16 @@
 
 let scripts = [
   [name, path, priority];
-  ["Kill",            "killprompt.nu",        1],
-  ["Audio",           "switchAudioOutput.nu", 1],
-  ["Notes",           "newNote.nu",           1]
-  ["Ghostty shaders", "runGhosttyShader.nu",  1],
-  ["Shutdown",        "shutdown.nu",          1],
+  ["Kill",            "killprompt.nu",          1],
+  ["Audio",           "switchAudioOutput.nu",   1],
+  ["Notes",           "newNote.nu",             1],
+  ["Background",      "setBackground.nu",       1],
+  ["Shutdown",        "shutdown.nu",            1],
 
   ["Duplicate monitor",     "monitorDuplicate.nu",       2],
-  ["Rotate monitor",        "monitorRotate.nu",          2]
-  ["Background",            "setBackground.nu",          2]
-  ["Background per screen", "setBackgroundPerScreen.nu", 2]
+  ["Rotate monitor",        "monitorRotate.nu",          2],
+  ["Background per screen", "setBackgroundPerScreen.nu", 2],
+  ["Ghostty shaders",       "runGhosttyShader.nu",       2],
 ]
 
 def main [

@@ -14,6 +14,7 @@ let variants = [
 let opts = $variants | get type | to nuon
 const width = 20
 const msg = "Background"
+let len = $variants | length
 
 def setBg [
   type: string
@@ -39,7 +40,7 @@ def main [
 
   while true {
     try {
-      let sel = dmenuSelect.nu $opts $msg --width=($width)
+      let sel = dmenuSelect.nu $opts $msg --width=($width) --length=($len - 1)
       setBg $sel $monitor
     } catch {
       exit 0
