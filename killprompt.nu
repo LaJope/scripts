@@ -5,7 +5,7 @@ let ignore = [
   "Qt", "kworker", "dbus", "xdg", "at-spi",
   "systemd", "sd-pam", "ksecretd", "pipewire",
   "wireplumber", "rtkit-daemon", "polkitd",
-  "-discover"
+  "-discover", "electron", "clang"
 ]
 let filt = {|el| ($ignore | all {|ig| $el.name !~ $ig})}
 

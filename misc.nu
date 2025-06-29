@@ -2,16 +2,17 @@
 
 let scripts = [
   [name, path, priority];
-  ["Kill",            "killprompt.nu",          1],
-  ["Audio",           "switchAudioOutput.nu",   1],
-  ["Notes",           "newNote.nu",             1],
-  ["Background",      "setBackground.nu",       1],
-  ["Shutdown",        "shutdown.nu",            1],
+  ["Kill",            "killprompt.nu",        1],
+  ["Audio",           "switchAudioOutput.nu", 1],
+  ["Notes",           "newNote.nu",           1],
+  ["Background",      "setBackground.nu",     1],
+  ["Shutdown",        "shutdown.nu",          1],
+  ["Next",           ["misc.nu", "-p", "2"],  1]
 
-  ["Duplicate monitor",     "monitorDuplicate.nu",       2],
-  ["Rotate monitor",        "monitorRotate.nu",          2],
-  ["Background per screen", "setBackgroundPerScreen.nu", 2],
-  ["Ghostty shaders",       "runGhosttyShader.nu",       2],
+  ["Duplicate monitor",      "monitorDuplicate.nu",       2],
+  ["Rotate monitor",         "monitorRotate.nu",          2],
+  ["Background per screen", ["setBackground.nu", "-p"],   2],
+  ["Ghostty shaders",        "runGhosttyShader.nu",       2],
 ]
 
 def main [
@@ -28,7 +29,7 @@ def main [
     exit 0
   }
 
-  let scr = $scripts | where name == $sel | get path | str trim
+  let scr = $scripts | where name == $sel | get 0.path
 
   ^($scr)
 }
