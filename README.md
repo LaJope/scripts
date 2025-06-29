@@ -2,7 +2,7 @@
 
 ## dmenuSelect.nu
 
-List of strings in nuon format -> prompt to select one of strings using rofi -dmenu
+List of strings in nuon format -> prompt to select one of strings using rofi -dmenu  
 Uses rofi
 
 ```nu
@@ -16,7 +16,7 @@ Uses rofi
 
 ## getMonitors.nu
 
-Get table with connected monitors in nuon format {name: ..., resolution: ...}
+Get table with connected monitors in nuon format {name: ..., resolution: ...}  
 Uses xrandr
 
 ```nu
@@ -116,7 +116,7 @@ Checks if program provided is running and either starts or kills it.
 Can provide custom executable to launch, or flags for starting.  
 
 ```nu
-  --is_running (-r)         # Print 1/0 if the program does/doesn't running
+  --is_running (-r)         # Print 1/0 if the program does/doesn't run
   --cust_exec (-c): string  # Specify custom executable to run if program is not running
   program: string           # Specify program name
   ...arguments: string      # Flags for program launch
