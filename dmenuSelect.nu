@@ -1,12 +1,12 @@
 #!/usr/bin/env nu
 
 def main [
-  options: string
-  msg: string
-  --fuzzy (-f)
-  --theme (-t): string
-  --width (-w): int
-  --length (-l): int
+  options: string       # List of string (nuon format) to select from
+  msg: string           # Prompt to display
+  --fuzzy (-f)          # Use fuzzy matching
+  --theme (-t): string  # rofi -dmenu theme (default sets width)
+  --width (-w): int     # width form theme
+  --length (-l): int    # Number of lines to display (default options length)
 ] {
   let opts = try {
     $options | from nuon | enumerate |

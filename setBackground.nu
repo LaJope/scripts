@@ -48,14 +48,14 @@ def setBg [
 }
 
 def main [
-  type?: string
-  --file (-f): string
-  --monitor (-m): int
-  --per_mon (-p)
+  type?: string        # Type of background folder to randomize
+  --file (-f): string  # Specify file to set background to. Ignores type
+  --monitor (-m): int  # Specify monitor id
+  --per_mon (-p)       # Pick monitor and background for it (hopefully works. Cannot check. No second monitor :( )
 ] {
   if $file != null {
     let path = try { ls $file ; $file } catch { $bgFolder + $file }
-    feh --bg-fill $path
+    setBg $path $monitor
     exit 0
   }
 

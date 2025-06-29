@@ -1,10 +1,10 @@
 #!/usr/bin/env nu
 
 def main [
-  message: string
-  monitors?: string
-  --confirm (-c)
-  --skip (-s)
+  message: string   # Prompt to display
+  monitors?: string # List of monitor in nuon format (optional)
+  --confirm (-c)    # If only one monitor, automatically chooses it and returns
+  --skip (-s)       # Skip check whether there is only one monitor connected
 ] {
   let mon = if $monitors == null {
     getMonitors.nu
