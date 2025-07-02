@@ -102,7 +102,7 @@ def main [
   --per_mon (-p)       # Pick monitor and background for it (hopefully works. Cannot check. No second monitor :( )
   --wallust (-w)       # Use wallust to change theme
 ] {
-  tmp $type $file $monitor $per_mon
+  tmp $type --file=($file) --monitor=($monitor) --per_mon=($per_mon)
   if $wallust {
     changeColorscheme
   }
