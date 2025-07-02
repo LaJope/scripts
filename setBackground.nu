@@ -35,15 +35,63 @@ def perMonitor [] {
 }
 
 def setBg [
-  type: string
-  monitor?: int
+  type?: string
+  --file (-f): string
+  --monitor (-m): int
+  --wallust (-w)
 ] {
-  let folder = $variants | where type == $type | get 0.folder
+  let folder = if $file == null {
+    $variants | where type == $type | get 0.folder
+  } else {
+    $file
+  }
 
   if $monitor == null {
     feh --bg-fill --recursive --randomize $folder
   } else {
     feh --bg-fill --recursive --randomize $folder --xinerama-index $monitor
+  }
+
+}
+
+def changeColorscheme [] {
+  print hello
+  let bg = cat ~/.fehbg |
+    split row "\n" | drop nth 0 | split row " " | get 3 |
+    str replace --all "\'" ""
+  print $bg
+  wallust run $bg -s
+}
+
+def tmp [
+  type?: string        # Type of background folder to randomize
+  --file (-f): string  # Specify file to set background to. Ignores type
+  --monitor (-m): int  # Specify monitor id
+  --per_mon (-p)       # Pick monitor and background for it (hopefully works. Cannot check. No second monitor :( )
+] {
+  if $file != null {
+    let path = try { ls $file ; $file } catch { $bgFolder + $file }
+    setBg --file=($path) --monitor=($monitor)
+    return
+  }
+
+  if $per_mon {
+    perMonitor
+    return
+  }
+
+  if $type != null and $type in ($variants | get type) {
+    setBg $type --monitor=($monitor) 
+    return
+  }
+
+  while true {
+    try {
+      let sel = dmenuSelect.nu $opts $msg --width=($width) --length=($len - 1)
+      setBg $sel --monitor=($monitor) 
+    } catch {
+      return
+    }
   }
 }
 
@@ -52,29 +100,10 @@ def main [
   --file (-f): string  # Specify file to set background to. Ignores type
   --monitor (-m): int  # Specify monitor id
   --per_mon (-p)       # Pick monitor and background for it (hopefully works. Cannot check. No second monitor :( )
+  --wallust (-w)       # Use wallust to change theme
 ] {
-  if $file != null {
-    let path = try { ls $file ; $file } catch { $bgFolder + $file }
-    setBg $path $monitor
-    exit 0
-  }
-
-  if $per_mon {
-    perMonitor
-    exit 0
-  }
-
-  if $type != null and $type in ($variants | get type) {
-    setBg $type $monitor
-    exit 0
-  }
-
-  while true {
-    try {
-      let sel = dmenuSelect.nu $opts $msg --width=($width) --length=($len - 1)
-      setBg $sel $monitor
-    } catch {
-      exit 0
-    }
+  tmp $type $file $monitor $per_mon
+  if $wallust {
+    changeColorscheme
   }
 }

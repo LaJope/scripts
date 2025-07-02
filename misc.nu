@@ -16,7 +16,7 @@ let scripts = [
 ]
 
 def main [
-  --priority (-p): int # Defines which scripts will be shown
+  --priority (-p): int = 1 # Defines which scripts will be shown
 ] {
   let opts = $scripts | where priority == $priority | get name | to nuon
 
