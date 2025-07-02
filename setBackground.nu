@@ -55,7 +55,6 @@ def setBg [
 }
 
 def changeColorscheme [] {
-  print hello
   let bg = cat ~/.fehbg |
     split row "\n" | drop nth 0 | split row " " | get 3 |
     str replace --all "\'" ""
