@@ -3,5 +3,7 @@
 let monitors = getMonitors.nu | from nuon
 
 for $monitor in ($monitors | get name) {
-  with-env {MONITOR: $monitor} { polybar --reload mainbar }
+  job spawn { with-env {MONITOR: $monitor} { polybar --reload mainbar } }
 }
+
+sleep 1wk

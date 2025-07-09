@@ -1,8 +1,10 @@
 #!/usr/bin/env nu
 
+const collect = [title, artist, album]
+
 def getMusic [player: string] {
   mut music: record = {}
-  for $meta in [title, artist] {
+  for $meta in $collect {
     let data = (playerctl --player=($player) metadata xesam:($meta))
     $music = $music | merge {$meta: ($data | iconv -f utf-8 -t ascii//TRANSLIT)
     }
